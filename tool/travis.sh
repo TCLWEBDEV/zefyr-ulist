@@ -2,5 +2,7 @@
 
 set -e
 
-cd "packages/$1"
-./tool/travis.sh
+$TRAVIS_BUILD_DIR/flutter/bin/flutter test
+
+dartfmt -n --set-exit-if-changed lib/
+dartfmt -n --set-exit-if-changed test/
