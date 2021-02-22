@@ -354,6 +354,10 @@ class EditorTextSelectionOverlay {
           endpoints,
           selectionDelegate,
           clipboardStatus,
+          Offset(0,0),
+          // This Offset is wrong, but to works I needed to do this.
+          // Use renderObject.handleSecondaryTapDown besides of that.
+          // This implementation effects only the web/desktop versions that use mouse.
         ),
       ),
     );

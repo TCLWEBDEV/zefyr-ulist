@@ -128,7 +128,7 @@ class _LinkDialogState extends State<_LinkDialog> {
         onChanged: _linkChanged,
       ),
       actions: [
-        FlatButton(
+        TextButton(
           onPressed: _link.isNotEmpty ? _applyLink : null,
           child: Text('Apply'),
         ),
