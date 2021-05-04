@@ -19,6 +19,8 @@ import 'package:flutter/services.dart';
 
 import '../rendering/editor.dart';
 import 'editor.dart';
+import 'text_selection_controls/zefyr_text_selection_controls.dart';
+import 'text_selection_controls/zefyr_text_selection_delegate.dart';
 
 /// A duration that controls how often the drag selection update callback is
 /// called.
@@ -92,11 +94,11 @@ class EditorTextSelectionOverlay {
   final RenderEditor renderObject;
 
   /// Builds text selection handles and toolbar.
-  final TextSelectionControls selectionControls;
+  final ZefyrTextSelectionControls selectionControls;
 
   /// The delegate for manipulating the current selection in the owning
   /// text field.
-  final TextSelectionDelegate selectionDelegate;
+  final ZefyrTextSelectionDelegate selectionDelegate;
 
   /// Determines the way that drag start behavior is handled.
   ///
@@ -354,7 +356,7 @@ class EditorTextSelectionOverlay {
           endpoints,
           selectionDelegate,
           clipboardStatus,
-          Offset(0,0),
+          Offset(0, 0),
           // This Offset is wrong, but to works I needed to do this.
           // Use renderObject.handleSecondaryTapDown besides of that.
           // This implementation effects only the web/desktop versions that use mouse.

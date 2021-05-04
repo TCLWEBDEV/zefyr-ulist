@@ -6,7 +6,8 @@ import 'package:zefyr/util.dart';
 
 import 'editor.dart';
 
-mixin RawEditorStateTextInputClientMixin on EditorState implements TextInputClient {
+mixin RawEditorStateTextInputClientMixin on EditorState
+    implements TextInputClient {
   final List<TextEditingValue> _sentRemoteValues = [];
   TextInputConnection _textInputConnection;
   TextEditingValue _lastKnownRemoteTextEditingValue;
@@ -26,12 +27,15 @@ mixin RawEditorStateTextInputClientMixin on EditorState implements TextInputClie
   /// - Changing the selection using a physical keyboard.
   bool get shouldCreateInputConnection => kIsWeb || !widget.readOnly;
 
-  void _remoteValueChanged(int start, String deleted, String inserted, TextSelection selection) {
-    widget.controller.replaceText(start, deleted.length, inserted, selection: selection);
+  void _remoteValueChanged(
+      int start, String deleted, String inserted, TextSelection selection) {
+    widget.controller
+        .replaceText(start, deleted.length, inserted, selection: selection);
   }
 
   /// Returns `true` if there is open input connection.
-  bool get hasConnection => _textInputConnection != null && _textInputConnection.attached;
+  bool get hasConnection =>
+      _textInputConnection != null && _textInputConnection.attached;
 
   /// Opens or closes input connection based on the current state of
   /// [focusNode] and [value].
@@ -113,7 +117,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState implements TextInputClie
 
   // Start TextInputClient implementation
   @override
-  TextEditingValue get currentTextEditingValue => _lastKnownRemoteTextEditingValue;
+  TextEditingValue get currentTextEditingValue =>
+      _lastKnownRemoteTextEditingValue;
 
   // autofill is not needed
   @override
@@ -170,7 +175,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState implements TextInputClie
       final text = value.text;
       final cursorPosition = value.selection.extentOffset;
       final diff = fastDiff(oldText, text, cursorPosition);
-      _remoteValueChanged(diff.start, diff.deleted, diff.inserted, value.selection);
+      _remoteValueChanged(
+          diff.start, diff.deleted, diff.inserted, value.selection);
     } catch (e, trace) {
       FlutterError.reportError(FlutterErrorDetails(
         exception: e,

@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart'
+    hide cupertinoTextSelectionControls, CupertinoTextSelectionControls;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    hide materialTextSelectionControls, MaterialTextSelectionControls;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +22,10 @@ import 'editor_keyboard_mixin.dart';
 import 'editor_selection_delegate_mixin.dart';
 import 'text_line.dart';
 import 'text_selection.dart';
+import 'text_selection_controls/zefyr_text_selection_delegate.dart';
 import 'theme.dart';
+import './text_selection_controls/cupertino_text_selection_controls.dart';
+import './text_selection_controls/material_text_selection_controls.dart';
 
 /// Builder function for embeddable objects in [ZefyrEditor].
 typedef ZefyrEmbedBuilder = Widget Function(
@@ -269,7 +274,7 @@ class _ZefyrEditorState extends State<ZefyrEditor>
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
-        textSelectionControls = materialTextSelectionControls;
+        textSelectionControls = MaterialTextSelectionControls();
         paintCursorAboveText = false;
         cursorOpacityAnimates = false;
         cursorColor ??= selectionTheme.cursorColor ?? theme.colorScheme.primary;
@@ -377,10 +382,9 @@ class _ZefyrEditorSelectionGestureDetectorBuilder
     if (segment.style.contains(NotusAttribute.link) &&
         editor.widget.onLaunchUrl != null) {
       if (editor.widget.readOnly) {
-        editor.widget.onLaunchUrl(segment.style.get(NotusAttribute.link).value);
+        editor.widget.onLaunchUrl(segment.toPlainText());
       } else {
-        // TODO: Implement a toolbar to display the URL and allow to launch it.
-        // editor.showToolbar();
+        editor.showToolbar(segment.toPlainText());
       }
     }
   }
@@ -668,7 +672,7 @@ abstract class EditorState extends State<RawEditor> {
   set textEditingValue(TextEditingValue value);
   RenderEditor get renderEditor;
   EditorTextSelectionOverlay get selectionOverlay;
-  bool showToolbar();
+  bool showToolbar([String url]);
   void hideToolbar();
   void requestKeyboard();
 }
@@ -681,7 +685,7 @@ class RawEditorState extends EditorState
         RawEditorStateKeyboardMixin,
         RawEditorStateTextInputClientMixin,
         RawEditorStateSelectionDelegateMixin
-    implements TextSelectionDelegate {
+    implements ZefyrTextSelectionDelegate {
   final GlobalKey _editorKey = GlobalKey();
 
   // Theme
@@ -748,7 +752,7 @@ class RawEditorState extends EditorState
   /// Returns `false` if a toolbar couldn't be shown, such as when the toolbar
   /// is already shown, or when no text selection currently exists.
   @override
-  bool showToolbar() {
+  bool showToolbar([String url]) {
     // Web is using native dom elements to enable clipboard functionality of the
     // toolbar: copy, paste, select, cut. It might also provide additional
     // functionality depending on the browser (such as translate). Due to this
@@ -761,8 +765,20 @@ class RawEditorState extends EditorState
       return false;
     }
 
+    selectedLink = url;
     _selectionOverlay.showToolbar();
     return true;
+  }
+
+  @override
+  bool openLinkEnabled = true;
+
+  @override
+  String selectedLink;
+
+  @override
+  void openLink(String url) {
+    widget.onLaunchUrl(url);
   }
 
   void _updateSelectionOverlayForScroll() {

@@ -386,7 +386,20 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
 
   const ZefyrToolbar({Key key, @required this.children}) : super(key: key);
 
-  factory ZefyrToolbar.basic({Key key, @required ZefyrController controller, bool hideBoldButton=false, bool hideItalicButton=false, bool hideUnderLineButton=false, bool hideStrikeThrough=false, bool hideHeadingStyle=false, bool hideListNumbers=false, bool hideListBullets=false, bool hideCodeBlock=false, bool hideQuote=false, bool hideLink=false, bool hideHorizontalRule=false}) {
+  factory ZefyrToolbar.basic(
+      {Key key,
+      @required ZefyrController controller,
+      bool hideBoldButton = false,
+      bool hideItalicButton = false,
+      bool hideUnderLineButton = false,
+      bool hideStrikeThrough = false,
+      bool hideHeadingStyle = false,
+      bool hideListNumbers = false,
+      bool hideListBullets = false,
+      bool hideCodeBlock = false,
+      bool hideQuote = false,
+      bool hideLink = false,
+      bool hideHorizontalRule = false}) {
     return ZefyrToolbar(key: key, children: [
       Visibility(
         visible: hideBoldButton,
@@ -423,8 +436,13 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      Visibility(visible: hideHeadingStyle, child: VerticalDivider(indent: 16, endIndent: 16, color: Colors.grey.shade400)),
-      Visibility(visible: hideHeadingStyle, child: SelectHeadingStyleButton(controller: controller)),
+      Visibility(
+          visible: hideHeadingStyle,
+          child: VerticalDivider(
+              indent: 16, endIndent: 16, color: Colors.grey.shade400)),
+      Visibility(
+          visible: hideHeadingStyle,
+          child: SelectHeadingStyleButton(controller: controller)),
       VerticalDivider(indent: 16, endIndent: 16, color: Colors.grey.shade400),
       Visibility(
         visible: hideListNumbers,
@@ -452,7 +470,8 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
       ),
       Visibility(
           visible: !hideListNumbers && !hideListBullets && !hideCodeBlock,
-          child: VerticalDivider(indent: 16, endIndent: 16, color: Colors.grey.shade400)),
+          child: VerticalDivider(
+              indent: 16, endIndent: 16, color: Colors.grey.shade400)),
       Visibility(
         visible: hideQuote,
         child: ToggleStyleButton(
@@ -461,8 +480,12 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
           icon: Icons.format_quote,
         ),
       ),
-      Visibility(visible: hideQuote, child: VerticalDivider(indent: 16, endIndent: 16, color: Colors.grey.shade400)),
-      Visibility(visible: hideLink, child: LinkStyleButton(controller: controller)),
+      Visibility(
+          visible: hideQuote,
+          child: VerticalDivider(
+              indent: 16, endIndent: 16, color: Colors.grey.shade400)),
+      Visibility(
+          visible: hideLink, child: LinkStyleButton(controller: controller)),
       Visibility(
         visible: hideHorizontalRule,
         child: InsertEmbedButton(
