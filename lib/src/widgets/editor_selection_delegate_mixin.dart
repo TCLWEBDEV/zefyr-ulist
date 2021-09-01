@@ -54,12 +54,12 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     // TODO: implement bringIntoView
   }
 
-  @override
-  void hideToolbar() {
-    if (selectionOverlay?.toolbarIsVisible == true) {
-      selectionOverlay?.hideToolbar();
-    }
-  }
+  // @override
+  // void hideToolbar() {
+  //   if (selectionOverlay?.toolbarIsVisible == true) {
+  //     selectionOverlay?.hideToolbar();
+  //   }
+  // }
 
   @override
   bool get cutEnabled => widget.toolbarOptions.cut && !widget.readOnly;

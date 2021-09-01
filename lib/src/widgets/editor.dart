@@ -1189,6 +1189,18 @@ class RawEditorState extends EditorState
       return theme.lists.spacing;
     }
   }
+
+  @override
+  void userUpdateTextEditingValue(TextEditingValue value, SelectionChangedCause cause) {
+    textEditingValue = value;
+  }
+
+  @override
+  void hideToolbar([bool hideHandles = true]) {
+    if (selectionOverlay?.toolbarIsVisible == true) {
+      selectionOverlay?.hideToolbar();
+    }
+  }
 }
 
 class _Editor extends MultiChildRenderObjectWidget {
